@@ -1,0 +1,9 @@
+[package]
+name = "ice"
+description = "A compiling engine for rbpt."
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+mktemp = "0.5.1"
+serde = "1.0.229"
