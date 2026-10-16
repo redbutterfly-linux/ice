@@ -6,4 +6,5 @@ edition = "2024"
 
 [dependencies]
 mktemp = "0.5.1"
-serde = "1.0.229"
+reqwest = "0.13.5"
+serde = { version = "1.0.229", features = ["derive"] }

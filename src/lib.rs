@@ -7,10 +7,11 @@ The main library for ice:
 */
 
 use mktemp::Temp;
-use std::fs;
+use std::env;
 use serde::Deserialize;
 
 // this is what ICE's manifest should contain
+#[allow(dead_code)]
 #[derive(Deserialize, Debug)]
 pub struct Manifest {
     name: String,
@@ -24,7 +25,21 @@ pub struct Manifest {
 
 // now we start the main.
 // /tmp is rw so we make a directory in /tmp
-pub fn ice_init()
-{
-    let bldpath = Temp::new_;
+pub fn ice_init(manifest: &Manifest) {
+    let pth = format!("/tmp/ice-{}-{}", manifest.name, manifest.ver);
+    let tmp = Temp::new_dir_in(pth).unwrap();
+    env::set_current_dir(tmp.as_ref()).unwrap();
 }
+
+pub fn ice_fetch(manifest: &Manifest) {
+    if (manifest.src.len() != manifest.hash.len()) {
+        panic!("src and hash length mismatch");
+    }
+
+
+}
+
+pub fn ice_build() {
+   // make a hakaniwa container to run bruv
+}
+
