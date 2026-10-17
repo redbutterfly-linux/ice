@@ -2,7 +2,7 @@
 The main library for ice:
 - [x] first ice should parse and bare minimum deps
 - [x] ice should be capable to download files and checksums
-- [ ] ice should make chroot's by hakinawa to build.
+- [x] ice should make chroot's by hakinawa to build.
 - [ ] it should be reproducible.
 */
 
