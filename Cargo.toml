@@ -5,6 +5,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-mktemp = "0.5.1"
-reqwest = "0.13.5"
+hakoniwa = "1.8.0"
+percent-encoding = "2.3.2"
+reqwest = {version = "0.13.5", features = ["blocking"] }
 serde = { version = "1.0.229", features = ["derive"] }
+tempfile = "3.27.0"
+url = "2.5.8"
