@@ -1,7 +1,7 @@
 /* 
 The main library for ice:
-- [ ] first ice should parse and bare minimum deps
-- [ ] ice should be capable to download files and checksums
+- [x] first ice should parse and bare minimum deps
+- [x] ice should be capable to download files and checksums
 - [ ] ice should make chroot's by hakinawa to build.
 - [ ] it should be reproducible.
 */
@@ -14,6 +14,8 @@ use serde::Deserialize;
 use sha2::{Digest, Sha256};
 use std::io::{self, BufReader, Read};
 use std::path::Path;
+use hakoniwa::Container;
+use std::os::unix::fs::PermissionsExt;
 
 // this is what ICE's manifest should contain
 #[allow(dead_code)]
@@ -103,7 +105,17 @@ pub fn ice_fetch(manifest: &Manifest) -> Result<(), Box<dyn std::error::Error>> 
     Ok(())
 }
 
-pub fn ice_build() {
+pub fn ice_build(manifest: &Manifest) -> Result<(), Box<dyn std::error::Error>> {
     // make a hakaniwa container to run bruv
+    let _ = fs::write("build.sh", manifest.cmds.clone());
+    let mut perms = fs::metadata("build.sh")?.permissions();
+    perms.set_mode(0o755);
+    let _ = fs::set_permissions("build.sh", perms);
+    _ = Container::new()        // Create Container with new namespaces via unshare
+        .rootfs("/").unwrap()   // Mount necessary directories, e.g. `/bin`
+        .command("/bin/sh")     // Create Command
+        .arg("build.sh")
+        .status()               // Execute
+        .expect("failed to execute process within container");
+    Ok(())
 }
-
